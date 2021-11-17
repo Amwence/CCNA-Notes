@@ -14,8 +14,11 @@ standby 1 preempt (if router goes down and back up makes it choose active roll w
 standby 1 authentication md5 key-string <password>
 standby 1 track <object> decrement <value>
 
-Supports IPv6
+Supports IPv6: Yes
 Transport: UDP/port: 1985
 Default priority: 100 (bigger number is better)
 Default Hello timer: 3 sec
 multicast group: 224.0.0.2
+
+Troubleshooting/Show Commands:
+show standby [brief]  show track [brief]
