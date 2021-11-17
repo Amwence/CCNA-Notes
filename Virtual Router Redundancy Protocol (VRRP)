@@ -21,7 +21,7 @@ Default hello: 1sec
 multicast group: 224.0.0.18
 
 Troubleshooting/show commands:
-show vrrp [brief]
+show vrrp [brief] show track [brief]
 
 Other notes:
 VRRP Object Tracking
