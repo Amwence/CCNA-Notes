@@ -7,9 +7,13 @@ SPAN Configuration:
 On a switch:
 
 (console)#monitor session <number> {source | destination} {interface | remote | vlan <1-4096>} { , (sequence separator | - (range seperator) | both | rx (SPAN copies only ingress traffic) |tx (SPAN copies only egress traffic)}
+
 example: monitor session 1 source vlan 1 both (sets monitor session to 1 and monitors both ingress and egress traffic on this switches vlan 1 since it is the source)
+
 example: monitor session 1 destination interface fastEthernet 1/0/5 (sends the monitored session from previous example to this interface)
+
 (console)#monitor session <number> source interface {,|-|encapsulation|ingress}
+
 (console)#monitor session <number> destination interface {, | - | encapsulation (set encapsulation for destination traffic forwarding)| ingress (enable ingress traffic forwarding}
 
 
