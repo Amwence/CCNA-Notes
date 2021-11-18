@@ -26,6 +26,17 @@ summertime adjustment: disabled
 NTP server: not specified
 Authentication mode: Disabled
 
+NTP Configuration:
+Synchronizes clocks between network devices and computer systems over a data network. Uses UDP port 132, unicast, broadcast, Multicast.
+
+(config)#ntp master <1-15> (sets stratum number)
+(config)#clock timezone <name> <offset hours><minutes> (provides a name for the time zone and offset from UTC)
+(config)#clock summer-time <name> {date | recurring}
+R1#clock set <HH:MM:SS> (current time)
+(config)#ntp source <source>
+example: ntp source loopback 0 (all parts in this sets the router as an ntp master and that the loopback is what people would contact to get their ntp information)
+(config)#ntp server {ip address | Hostname} (sets where to get ntp information from)
+example: ntp server 3.3.3.3 (is the loopback of the router in the above example)
 NTP Broadcast-Client Configuration:
 Broadcast-based NTP associations should be used when time accuracy and reliability requirements are modest and if your network is localized and has more than 20 clients. Broadcast-based NTP associations are also recommended for use on networks that have limited bandwidth, system memory, or CPU resources.
 
@@ -107,6 +118,8 @@ Configuring an NTP server and peer:
 
 Troubleshooting/Show Commands:
 show ntp (verify ntp configuration)
+show ntp associations
+show ntp status
 show summertime (verify's daylight savings config)
 show timezone (verify timezone config)
 show ntp peers
