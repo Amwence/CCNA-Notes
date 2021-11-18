@@ -8,7 +8,7 @@ When operating over a network, syslog uses a client-server architecture where a 
 Syslog Configuration:
 (console)#logging host <ip address> (Set syslog server ip address and paramaters)
 (console)#logging on (Enable logging to all enabled destinations)
-(console)#userinfo (enable logging of user info on privledged mode enabling)
+(console)#logging userinfo (enable logging of user info on privledged mode enabling)
 (console)#service timestamps log datetime msec (Enables Timestamps to be sent with Syslogs)
 (console)#logging trap <level> (limits messages logged to the terminal lines. By default, the terminal receives debugging messages and numerically lower levels.)
 
