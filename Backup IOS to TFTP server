@@ -1,0 +1,5 @@
+1. Verify connectivity to server and that it has enough space to host the file. 
+2. on device do a show flash command to copy filename wanted to transfer to TFTP server.
+  example: R1#show flash
+3. copy flash: <filename> tftp: or copy flash: ? (will bring up options so you can choose what file to copy) tftp:
+4.add ip address of tftp server. it will ask you what you want destination filename to be. 
