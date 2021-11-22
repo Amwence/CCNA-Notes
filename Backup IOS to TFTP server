@@ -1,5 +1,28 @@
+Backing up an IOS image to TFTP:
+
 1. Verify connectivity to server and that it has enough space to host the file. 
 2. on device do a show flash command to copy filename wanted to transfer to TFTP server.
-  example: R1#show flash
+    example: R1#show flash
 3. copy flash: <filename> tftp: or copy flash: ? (will bring up options so you can choose what file to copy) tftp:
-4.add ip address of tftp server. it will ask you what you want destination filename to be. 
+4. add ip address of tftp server. it will ask you what you want destination filename to be. 
+
+
+
+Downloading/Upgrading and IOS imaging from one that has been downloaded to your TFTP server:
+
+1. Verify connectivity to tftp server and enough space on device to host file
+    example: R1#show flash (verify device has enough space to host file) ping <tftp server address> (verify connectivity)
+2.copy tftp: <source file name> flash: or copy tftp: flash: ( it will ask for the address of tftp, source filename, and destination filename)
+
+Booting from a different system image:
+
+1. Enter privledged exec mode aka configure terminal
+2. (config)boot system {flash | ftp | mop | rcp | rom | tftp}
+    example: boot system flash: <filename>
+    
+ flash-boot system from flash memory
+ ftp- boot system from a server via ftp
+ mop- boot from a Decnet MOP server
+ rcp- boot from a server via rcp
+ rom- boot from ROM
+ tftp- boot from a tftp server
