@@ -12,6 +12,7 @@ Syslog Configuration:
 (console)#service timestamps log datetime msec (Enables Timestamps to be sent with Syslogs)
 (console)#logging trap <level> (limits messages logged to the terminal lines. By default, the terminal receives debugging messages and numerically lower levels.)
 (config-line)logging synchronous (done on line con 0 and makes it so messages don't interrupt what you are typing. Brings whatever you were typing back up under whatever message shows up.)
+(config)#no logging console
 
 Syslog:
 0 Emergencies - System is unusable
