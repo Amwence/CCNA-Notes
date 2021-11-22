@@ -28,9 +28,20 @@ Booting from a different system image:
  tftp- boot from a tftp server
 
 
+configuration register 0x2142 is to boot up skipping start up config and 0x2102 is for normal boot.
+
+Changing forgotten/lost secret password:
+Break boot and enter ROMmon mode. Change console register to 0x2142 by using the confreg command. After booting up machine say no to enter initial config, and then copy startup config to running config. Change secret password, save running to startup config, and then change register to 0x2102 to put it back to boot normally. 
+
+To put the router/switch back into/skip normal boot mode before/after changing a secret password:
+rommon 1>confreg 0x2142
+(config)# copy start run
+(config)#enable secret <password> (overwrites previous secret password)
+(config)#copy run start or wr
+(config)#config-register 0x2102
 
 
-an example of password recovery, but it depends on device you are using and a password decryptor for type 7 passwords: 
+An example of password recovery, but it depends on device you are using and a password decryptor for type 7 passwords: 
 
 http://learnccna.net/cisco-type-7-password-decryption-2/73D9CD6E4B859E7B0978A7378A959B6890EF0DE9A93FA5122B6B10F5ED5122C8CD0583C3AA79253EBC64724A2B2655E3/
 
