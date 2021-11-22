@@ -26,3 +26,12 @@ Booting from a different system image:
  rcp- boot from a server via rcp
  rom- boot from ROM
  tftp- boot from a tftp server
+
+
+
+
+an example of password recovery, but it depends on device you are using and a password decryptor for type 7 passwords: 
+
+http://learnccna.net/cisco-type-7-password-decryption-2/73D9CD6E4B859E7B0978A7378A959B6890EF0DE9A93FA5122B6B10F5ED5122C8CD0583C3AA79253EBC64724A2B2655E3/
+
+https://www.cisco.com/c/en/us/support/docs/routers/2800-series-integrated-services-routers/112033-c2900-password-recovery-00.html
