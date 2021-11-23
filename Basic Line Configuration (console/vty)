@@ -1,0 +1,14 @@
+(console)#config t
+(config)#username <username> secret <password>
+(config)#enable secret <password> ( sets password for privledged exec mode or enable mode)
+(config)#line con 0
+(config-line)#login local (sets login for the console so before you get to the enable portion)
+(config-line)#exec-timeout <seconds> (time you have to put in password before timeout) 
+
+(console)#config t
+(config)#enable secret <password> ( sets password for privledged exec mode or enable mode)
+(config)#username <username> secret <password>
+(config)#line vty <starting vty number> <ending vty number> (you could do specific lines by choosing just one, or a range from start to end.  Like, 0, with a space between, then the last line you want, like 4; to configure all vty at once.)
+(config-line)#login local
+(config-line)#transport input {telnet | ssh} (telnet is clear text transportation should always use SSH if possible)
+(config-line)#
