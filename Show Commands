@@ -1,0 +1,1 @@
+show control-plane host open-ports (shows open ports on switch/router)
