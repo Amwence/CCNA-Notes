@@ -10,5 +10,20 @@
 (config)#username <username> secret <password>
 (config)#line vty <starting vty number> <ending vty number> (you could do specific lines by choosing just one, or a range from start to end.  Like, 0, with a space between, then the last line you want, like 4; to configure all vty at once.)
 (config-line)#login local
-(config-line)#transport input {telnet | ssh} (telnet is clear text transportation should always use SSH if possible)
-(config-line)#
+(config-line)#transport input {all|none|telnet|ssh} (What protocol to user for incoming connections to terminal. Telnet is clear text transportation should always use SSH if possible. All would be both telnet and ssh)
+(config-line)#transport output {all|none|telnet|ssh} (what protocl to use for outgoiong connections so from local device to a different one)
+
+Setting up VTY for SSH specifically:
+(console)#config t
+(config)#hostname <name>
+(config)#ip domain-name <name>
+(config)#username <username> secret <password>
+(config)#crypto key generate rsa general-keys modulus <360-4096> (You need to have a hostname and domain name configured for this. It is what creates the keys for the ssh session.)(creates public and private keys alternatively I tested on a router and when I pressed enter after rsa it asked me for the modulus and skipped the general keys part.)
+(config)#line vty <starting vty> <ending vty>
+(config-line)#login local
+(config-line)#transport input ssh version 2 (version is optional, but ssh version 2 is more secure)
+(config-line)#no shut
+
+commands to ssh to device
+
+ssh -l(the L is for login) <username> <ip address/hostname>  
