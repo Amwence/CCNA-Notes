@@ -10,8 +10,15 @@
 (config)#username <username> secret <password>
 (config)#line vty <starting vty number> <ending vty number> (you could do specific lines by choosing just one, or a range from start to end.  Like, 0, with a space between, then the last line you want, like 4; to configure all vty at once.)
 (config-line)#login local
-(config-line)#transport input {all|none|telnet|ssh} (What protocol to user for incoming connections to terminal. Telnet is clear text transportation should always use SSH if possible. All would be both telnet and ssh)
+(config-line)#transport input {all|none|telnet|ssh} (What protocol to user for incoming connections to terminal. Telnet is clear text transportation should always use SSH if possible.)
 (config-line)#transport output {all|none|telnet|ssh} (what protocl to use for outgoiong connections so from local device to a different one)
+
+Transport types:
+Telnet-clear text
+SSH- encrypted and requires crypto key gen rsa general-key modulus 
+none- no transport protocols accepted. Basically disables the lines
+ALL- allows all transport protocols: lat|mop|nasi|pad|rlogin|ssh|telnet|v120
+
 
 Setting up VTY for SSH specifically:
 (console)#config t
