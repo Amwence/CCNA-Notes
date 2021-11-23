@@ -17,6 +17,7 @@ Setting up VTY for SSH specifically:
 (console)#config t
 (config)#hostname <name>
 (config)#ip domain-name <name>
+(config)#enable secret <password> (need to have enable password for both telnet or SSH to work)
 (config)#username <username> secret <password>
 (config)#crypto key generate rsa general-keys modulus <360-4096> (You need to have a hostname and domain name configured for this. It is what creates the keys for the ssh session.)(creates public and private keys alternatively I tested on a router and when I pressed enter after rsa it asked me for the modulus and skipped the general keys part.)
 (config)#line vty <starting vty> <ending vty>
