@@ -35,5 +35,8 @@ Example:ip dhcp snooping (sets snooping globally across the device. Interfaces w
         
         ip dhcp snooping trust (makes the gig 0/0/0 a trusted port for dhcp on vlan 10 no other servers can give vlan 10 dhcp offers without being trusted.)
         
-        
-        https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst6500/ios/12-2SXF/native/configuration/guide/swcg/snoodhcp.pdf
+Troubleshooting/Show Commands:
+show ip dhcp binding
+show ip dhcp database {detail}
+
+https://www.cisco.com/c/en/us/td/docs/switches/lan/catalyst6500/ios/12-2SXF/native/configuration/guide/swcg/snoodhcp.pdf
