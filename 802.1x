@@ -1,0 +1,10 @@
+
+
+
+Authentication- You are authenticating a username and password before a suer can access the network.
+Authorization- Determines what you are allowed to do. 
+Accounting- Log of what has happened on the network. 
+
+client/supplicant- is a pc running 802.1x software.
+Authenticator- Doesn't authenticate the client, but sends authentication information through to the server. When client sends information to the Authenticator it sends an 802.1x challenge to the client/supplicant. The client then responds with username password information that the Authenticator does not read, but passes onto the Authentication server.
+Authentication server- Usually a Radius/TACAS server that Authenticates client/supplicant. When the Authenticator sends the 802.1x packet from the client to the server it validates that the log in information is correct, and what level of access the client/supplicant has. 
