@@ -10,5 +10,29 @@ After you have set the maximum number of secure MAC addresses on a port, the sec
 
 •You can configure a number of addresses and allow the rest to be dynamically configured. 
 
-How to configure port-security: 
+ Port Security Guidelines and Restrictions
 
+Follow these guidelines when configuring port security:
+
+•A secure port cannot be a trunk port.
+
+•A secure port cannot be a destination port for Switch Port Analyzer (SPAN).
+
+•A secure port cannot belong to an EtherChannel port-channel interface.
+
+•A secure port and static MAC address configuration are mutually exclusive. 
+
+How to configure port-security: 
+(config)#int <interface>
+
+(config-if)#mac-address <mac-address> (sets a specific mac address for a port. Not necessary for configuring port security but good to know)
+
+(config-int)#switchport port-security ( by default max of 1 address allowed on port, and shutdown-error disables the port if another device is plugged in with different mac.Does not work on a dynamic port. So you need to set the port as either access or trunk cannot be left up to dtp)
+(config-int)#switchport port-security maximum <value> (sets maximum value of secure mac addresses for the port. Default is 1.)
+(config-int)#switchport port-security violation {restrict|shutdown} (Sets what happens if there is a violation. Restrict-A port security violation restricts data and causes the SecurityViolation counter to increment and send an SNMP trap notification. Shutdown- The interface is error-disabled state when a security violation occurs. Must shut no shut the port to get it to come back up. )
+
+(console)#clear port security <mod_num/port_num> {mac_address|all}
+
+Troubleshooting/Show Commands:
+show port-security
+show mac address-table
