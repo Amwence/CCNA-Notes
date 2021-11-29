@@ -49,6 +49,8 @@ Path Selection:
 3. Prefer the neighbor with the loweset bridge ID
 4. Prefer the lowest sender port ID
 
+BPDU's use a uinque mac address of 1:80:c2:00:00:00 or for PVST 01:00:0C:cc:CC:cd
+
 PVST+ and RPVST+ Configuration
 !set mode
 spanning-tree mode {pvst | rapid-pvst}
