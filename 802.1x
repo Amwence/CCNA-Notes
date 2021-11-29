@@ -1,5 +1,15 @@
+802.1x- IEEE 802.1X is an IEEE Standard for port-based Network Access Control (PNAC). It is part of the IEEE 802.1 group of networking protocols. It provides an authentication mechanism to devices wishing to attach to a LAN or WLAN.
 
+IEEE 802.1X defines the encapsulation of the Extensible Authentication Protocol (EAP) over IEEE 802.11,[1][2] which is known as "EAP over LAN" or EAPOL.[3] EAPOL was originally designed for IEEE 802.3 Ethernet in 802.1X-2001, but was clarified to suit other IEEE 802 LAN technologies such as IEEE 802.11 wireless and Fiber Distributed Data Interface (ANSI X3T9.5/X3T12 and ISO 9314) in 802.1X-2004.[4] The EAPOL was also modified for use with IEEE 802.1AE ("MACsec") and IEEE 802.1AR (Secure Device Identity, DevID) in 802.1X-2010[5][6] to support service identification and optional point to point encryption over the internal LAN segment.
 
+Overview
+
+EAP data is first encapsulated in EAPOL frames between the Supplicant and Authenticator, then re-encapsulated between the Authenticator and the Authentication server using RADIUS or Diameter.
+802.1X authentication involves three parties: a supplicant, an authenticator, and an authentication server. The supplicant is a client device (such as a laptop) that wishes to attach to the LAN/WLAN. The term 'supplicant' is also used interchangeably to refer to the software running on the client that provides credentials to the authenticator. The authenticator is a network device that provides a data link between the client and the network and can allow or block network traffic between the two, such as an Ethernet switch or wireless access point; and the authentication server is typically a trusted server that can receive and respond to requests for network access, and can tell the authenticator if the connection is to be allowed, and various settings that should apply to that client's connection or setting. Authentication servers typically run software supporting the RADIUS and EAP protocols. In some cases, the authentication server software may be running on the authenticator hardware.
+
+The authenticator acts like a security guard to a protected network. The supplicant (i.e., client device) is not allowed access through the authenticator to the protected side of the network until the supplicant's identity has been validated and authorized. With 802.1X port-based authentication, the supplicant must initially provide the required credentials to the authenticator - these will have been specified in advance by the network administrator and could include a user name/password or a permitted digital certificate. The authenticator forwards these credentials to the authentication server to decide whether access is to be granted. If the authentication server determines the credentials are valid, it informs the authenticator, which in turn allows the supplicant (client device) to access resources located on the protected side of the network.[7
+
+My explanation:
 
 Authentication- You are authenticating a username and password before a suer can access the network.
 Authorization- Determines what you are allowed to do. 
@@ -8,3 +18,47 @@ Accounting- Log of what has happened on the network.
 client/supplicant- is a pc running 802.1x software.
 Authenticator- Doesn't authenticate the client, but sends authentication information through to the server. When client sends information to the Authenticator it sends an 802.1x challenge to the client/supplicant. The client then responds with username password information that the Authenticator does not read, but passes onto the Authentication server.
 Authentication server- Usually a Radius/TACAS server that Authenticates client/supplicant. When the Authenticator sends the 802.1x packet from the client to the server it validates that the log in information is correct, and what level of access the client/supplicant has. 
+
+Tacas+- Uses port 49, encrypts the password, and encrypts the entire packet.
+Radius- Uses port numbers 1645, and 1812, encrypts the password, but does NOT encrypt the entire packet. 
+
+Setting up a device to work with an Authentication server: 
+
+(config)#aaa new-model (enables NEW access control commands and functions, and disables old commands.)
+(config)#line con 0
+(config-line)# login authentication {word|default} (Word uses an authentication list with that name, and default just uses the default authentication list.)
+    example: (on line con 0)#login authentication default
+(config)# tacas-server host <ip address> (sets the tacas server to be used.)
+(config)# tacas-server key <password> (sets password for tacas server)
+(config)# aaa authentication login {word|default} group {tacas+|radius} <optional backup authentication settings>(sets use of tacas for login using either a word or sets default for whole device and will be applied to all lines; aux, TTY, vty and console.)
+    example:(config)#aaa authentication login default group tacas+ local (sets authentication for login default of group tacas+ server with a backup of local passwords and usernames. Must have local username and password configured as backup in order for it to work from back up.)
+    Optional backup: If router is unable to get to Tacas server use one of the following.
+                     enable- enable password for authentication
+                     group- Server Group for authentication
+                     krb5- Kerberos 5 authentication
+                     line- line password for authentication
+                     local- use local username authentication
+                     local- Use case-sensitive local username for authentication
+                     none- No authentication
+                     
+Setting up TACAS+ server groups:
+(config)#aaa new-model
+(config)#username <username> password <password> (local username and password as a backup. Set up service password encryption so it's not clear text.
+(config)#tacas server <name>
+    example: tacas server acs
+(config-server-tacas)#address {ipv4|ipv6} <ip address>
+    example: address ipv4 10.1.1.1
+(config-server-tacas)#key <server-key>
+    example: key cisco
+exit
+(config)#aaa group server tacas+ <create a group>
+    example: aaa group tacas+ acsgroup
+(config-sg-tacas+)#server name <server-name> (from earlier step.)
+    example: server name acs
+exit
+(config)#aaa authentication login default group <group name> local ( uses default aaa settings with a back up of a locally created group)
+
+
+You must then go to the Server itself and configure it so that the device can then talk with the server for both setups. So you need to set this up on both the device, and server side to work properly. 
+Troubleshooting/Show Commands:
+do show run | include aaa
