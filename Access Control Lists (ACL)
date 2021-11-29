@@ -1,5 +1,40 @@
 Access control list- Access control lists (ACLs) perform packet filtering to control which packets move through a network and to where. The packet filtering provides security by helping to limit the network traffic, restrict the access of users and devices to a network, and prevent the traffic from leaving a network. IP access lists reduce the chance of spoofing and denial-of-service attacks and allow dynamic, temporary user-access through a firewall.
 
-IP access lists can also be used for purposes other than security, such as bandwidth control, restrict the content of routing updates, redistribute routes, trigger dial-on-demand (DDR) calls, limit debug output, and identify or classify traffic for quality of service (QoS) features. This module provides an overview of IP access lists.
+IP access lists can also be used for purposes other than security, such as bandwidth control, restrict the content of routing updates, redistribute routes, trigger dial-on-demand (DDR) calls, limit debug output, and identify or classify traffic for quality of service (QoS) features or what traffic to be encrypted when using a vpn. This module provides an overview of IP access lists.
 
 Inbound and Outbound traffic is based on the port it is being acted upon. For example when making an ACL from a laptop going through a router, and to a server. The port that the laptop is connected to the router. Anything being sent from the laptop to that port would be inbound traffic, and anything coming out of that port to the pc would be outbound traffic. Same for the server side of this example. The port that the server directly connects to any traffic coming from the server into the router would be inbound, and anything being sent out of that port to the server would be outbound traffic. It is all based on the port you are putting the ACL on.
+2 steps to implmenting ACLs
+1. Create ACL in global configuration mode: access-list command
+2. Apply inbound or outbound on an interface: access-group command
+An ACL will have no effect until it is applied to an interface. 
+
+ACL's are processed top down from the list, and at the end if there are no matches in the ACL for traffic it is dropped. At the end of ACL lists have an Implicit DENY ALL at the end of all ACLs, so you must have atleast one allow statement in an ACL or all traffic will be dropped. 
+
+Standard ACL - Only check on source IP addresses and do not check on port numbers or individual protocols. Permits or denies entire protocol suite based on the source Ip address or source network.
+
+Extended ACL- Check on both the source and destination IP addresses. Allows you to permit or deny specific protocols, ports and applications.
+
+Two methods to identify Standard and Extended ACLs
+Numbered ACL- 1-99 and 1300-1999(expanded range) for standard IP ACLs
+              100-199 and 2000-2699(expanded range) for Extended ACLs
+
+Named ACL- Uses Alphanumeric characters, and are more descriptive.
+
+Note- there is a 700-799 range for MAC address access list not covered in course, but may be something to look into later. 
+
+Wildcard Masks:
+A wildcard mask is the opposite of a subnet maks where it uses 1's for the network portion. Wildcard masks instead use 1's for the host portion of the address. So whereas a /24 subnet mask is 255.255.255.0, a wildcard for /24 would be 0.0.0.255.
+You can calculate a wildcard mask by subtracting the subnet from 255.255.255.255. To match a specific host you would use 0.0.0.0 which is the same as a all 255 subnet mask or /32, and to match anything would be 0.0.0.0 255.255.255.255. To match a subnet you would use the wildcard mask example below to figure out what you would need and a network address; for example 10.1.1.0 0.0.0.255, which would match the entire 10.1.1.0/24 network.
+so as in our /24 example
+  255.255.255.255
+- 255.255.255.0
+--------------------
+   0.0.0.255   
+
+Setting up ACL
+(config)# access-list <number> {deny|permit|remark}
+
+        Deny- Denies traffic within ACL
+        Permit- Permits traffic within ACL
+        Remark- Sets a description for the ACL so you know what it's for if visiting it at a later date. 
+(config)#access-list {number|name} {deny|permit|remark} {hostname or ipaddress|any|host} {wildcard mask|log|ip address if host was used} (host allows for you to match a specific IP and not use a wildcard mask.)
