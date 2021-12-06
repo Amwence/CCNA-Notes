@@ -36,7 +36,7 @@ Static Nat - Translates Private IP addresses to Public IP addresses (one to one 
       example: Used for when a Server inside an internal network needs to be accessible from the internet. You would set a static NAT so any traffic going out of the network would have a specific Global outside address.
 
 Dynamic NAT - Translates Private IP addresses from a pool of Public IP addresses.
-      example: When 2 companies merge, they have overlapping private addressing. Instead of restructuring the network they use Dynamic NAT so the devices can talk to eachother. Not efficient and should only be used when necessary. 
+      example: When 2 companies merge, they have overlapping private addressing. Instead of restructuring the network they use Dynamic NAT so the devices can talk to eachother. Not efficient and should only be used when necessary. Also uses port numbers. 
       
 PAT or NAT Overloading - Translates multiple Private IP addresses to a single Public IP with the help of Port numbers. 
       example: On most home networks, an ISP only assigns you one public IP address. By adding a port numbers to traffic from your local network you can have mulitple devices using the internet at the same time. Whereas with Static NAT, you would have one address, and if it was being traffic would have to wait to use the address. 
@@ -57,18 +57,32 @@ Configuring Static NAT:
 
 Configuring Dynamic NAT:
 
-(config)#
-(config-if)#
-(config-if)#
-(config-if)#
+(config)#int f0/1
+(config-if)#ip nat outside
+(config-if)#int f0/0
+(config-if)#ip nat inside  (setup inside and outside interfaces same as before.)
+
+(config)#access-list {name|number}  permit <ip addresss> <wildcard mask> (set up an access list for what computers are allowed to be natted out of the network and which aren't.)
+      example access-list 1 permit 10.1.1.0 0.0.0.255
+      
+(config)#ip nat pool <name> <ip range> <netmask>
+      example: ip nat pool NAT-Pool 8.1.1.5 8.1.1.10 255.255.255.0
+      
+(config)#ip nat inside source list <access list> pool <poolname>  (applies the pool only to sources inside, and that coincide with access list 1 created earlier in our steps.)
+      example: ip nat inside source list 1 pool NAT-Pool
 
 Configuring PAT:
 
-(config)#
-(config-if)#
-(config-if)#
-(config-if)#
+(config)#config t
+(config-if)#int f0/1
+(config-if)#ip nat outside
+(config-if)#int f0/0
+(config-if)#ip nat inside
+(config)#access-list {name|number} permit <ip address> <wildcard mask>
+(conifg)#ip nat inside source list interface fastethernet 0/1 overload 
+
 Extended NAT is one IP address and port number Natted to another IP address and port number. 
+
 Troubleshooting/Show Commands:
 
 show ip nat translations
