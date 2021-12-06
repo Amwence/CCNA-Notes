@@ -7,6 +7,7 @@ This method enables communication through the router only when the conversation 
 One of the additional benefits of one-to-many NAT is that it is a practical solution to IPv4 address exhaustion. Even large networks can be connected to the Internet using a single public IP address. NAT OVERLOADING.
 
 Inside user or inside hosts, servers you connect to over the internet would be outsider and on the Global internet. The pc on the inside of your network would be inside your local network. The internet on the other hand is global, and the server we mentioned earlier would be on the global internet outside of your network.
+
 Inside Local Address- private address of the inside host on the local lan
 
 Inside Global Address- is the address of the local inside pc as seen on the global internet with a Public IP address. (Natted Address)
@@ -39,3 +40,38 @@ Dynamic NAT - Translates Private IP addresses from a pool of Public IP addresses
       
 PAT or NAT Overloading - Translates multiple Private IP addresses to a single Public IP with the help of Port numbers. 
       example: On most home networks, an ISP only assigns you one public IP address. By adding a port numbers to traffic from your local network you can have mulitple devices using the internet at the same time. Whereas with Static NAT, you would have one address, and if it was being traffic would have to wait to use the address. 
+      
+      Process: You set ip nat inside, and ip nat outside on the corresponding interfaces. Then you would set the ip nat inside/outside source and either the address, pool and/or set up overloading. 
+
+Configuring Static NAT:
+
+(config)#int f0/1
+(config-if)#ip nat outside  (tells router what interface and which direction to NAT the traffic. In this example you would be Natting for traffic going out of fastethernet 0/1. Like ACL's it's based on the port so traffic comes into the port from an endpoint, and out of a port to an endpoint.)
+(config-if)#end
+(config)#int f0/0
+(config-if)#ip nat inside (tells the router where the interface for the inside of our network is so translations can be reversed.)
+(config-if)#end
+(config)#ip nat inside source static <source Ip address> <global IP address or interface> (set's nat to translate all packets from the source of the packets on the inside interface. Which in our example would be a computer inside our network. Note that you can set it up to translate only TCP or UDP as well, or subnet translation and IPSec-ESP tunnel but that is not within the scope of CCNA at this time.)
+      example: ip nat inside source static 10.1.1.1 8.1.1.5 (Nat's our private inside 10 address to a static global public 8 address)
+
+
+Configuring Dynamic NAT:
+
+(config)#
+(config-if)#
+(config-if)#
+(config-if)#
+
+Configuring PAT:
+
+(config)#
+(config-if)#
+(config-if)#
+(config-if)#
+Extended NAT is one IP address and port number Natted to another IP address and port number. 
+Troubleshooting/Show Commands:
+
+show ip nat translations
+clear ip nat translations * (clears all ip nat translations)
+show ip nat statistics
+show run | include nat
