@@ -76,6 +76,14 @@ Setting access list on VTY lines:
 (config)#line vty 0 4
 (config-if)#access-class {number|word} {in|out}
 
+removing a specific entry in an ACL:
+(config)#ip access-list {standard|extended} {name|number}
+(config-acl)#no <number of entry you want deleted>
+(config-acl)#do show ip access-list
+      example: ip access-list standard 1
+               no 30
+               do show ip access-list
+
 Troubleshooting/Show Commands:
 show access-lists
 show access-lists {number|name}
