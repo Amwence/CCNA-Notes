@@ -89,3 +89,4 @@ show ip nat translations
 clear ip nat translations * (clears all ip nat translations)
 show ip nat statistics
 show run | include nat
+show ip nat statistics
