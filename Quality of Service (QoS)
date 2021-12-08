@@ -45,7 +45,9 @@ The Differentiated Service (DiffServ) is a network solution aimed at classifying
 
 When 3 bits are used it's called Ip precedence, and when 6 bits are used it's called DSCP. DSCP is backwards compatible with ip precedence.
 
-Link-specific tools-
+Congestion management or scheduling tools
+
+Link-specific tools- Link Fragmentation and interleaving
 
 There is a trust boundry within a network to decide whether to trust the tags on packets, and that needs to be set on each device in the line. So the interface the phone is on, the swtich between that and the router, and so on. Alternatively you can set devices to trust all ingress traffic on a port.
 
