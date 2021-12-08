@@ -18,11 +18,13 @@ Data: Tends to be bursty/smooth, and greedy/benign. Meaning that if you give it 
 Voice: Tends to be smooth, meaning that they require a set amount of bandwidth and require it for the duration of the call. Benign as in they will not try to grab bandwidth from other applications. They are very Drop sensitive and Delay Sensitive, because a delay in a voice call can cause degraded user experience, and packets cannot be retransmitted/played out of order for voice traffic. Voice is sent over UDP and has these one way requirements: Latency- less than 150mms, Jitter-less than 30ms, and Loss-less than 1%. Bandwidth required depends on codec used, but is usually between 30-128Kbps.
 
 Video: Has characteristics of both Voice and Data. It is bursty/greedy like Data, and videos with alot of movement requires more bandwidth than one without alot of movement. It's drop/delay sensitive like Voice and transmits over UDP. Video traffic has these one way requirements: Latency- less than 150ms, Jitter-less than 30ms, loss- between 0.1%-1%, and bandwidth depending on the resolution of the video traffic may require 384Kbps-20+Mbps.
-
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 SRND guide:
 https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjNla__i9L0AhXckIkEHQsHDtUQFnoECAoQAQ&url=https%3A%2F%2Fsupportforums.cisco.com%2Flegacyfs%2Fonline%2Flegacy%2F3%2F2%2F6%2F64623-qossrnd.pdf&usg=AOvVaw1Vntqy6r25GAhLzDe-XMQE
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-Transmission quality of the network is determined by Loss, Delay, and Delay variation(jitter). 
+Transmission quality of the network is determined by Loss, Delay, and Delay variation(jitter).
+
 Loss-A relative measure of the number of packets that were not received compared to teh total number of packets transmitted.
 
 Delay- the finite amount of time it takes a packet to treach the receiving endpoint after being transmitted from the sending endpoint. 
@@ -134,5 +136,5 @@ Marking- COS or DSCP value
 
 Ip Addressing- destination ip subnet, specific address, layer w mac address, specific port number, domain address, etc. 
 
-Deep Packet Inspection- 
+Deep Packet Inspection- NBAR network based application recognition.
 
