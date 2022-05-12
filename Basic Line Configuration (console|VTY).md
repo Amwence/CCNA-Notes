@@ -1,10 +1,16 @@
+# Basic Line configuration for both Console and VTY lines.
+These are some line configurations with passwords and such so that I don't forget. 
+## Console:
+```
 (console)#config t
 (config)#username <username> secret <password>
 (config)#enable secret <password> ( sets password for privledged exec mode or enable mode)
 (config)#line con 0
 (config-line)#login local (sets login for the console so before you get to the enable portion)
 (config-line)#exec-timeout <seconds> (time you have to put in password before timeout) 
-
+```
+## Virtual TeleType VTY:
+```
 (console)#config t
 (config)#enable secret <password> ( sets password for privledged exec mode or enable mode)
 (config)#username <username> secret <password>
@@ -12,15 +18,16 @@
 (config-line)#login local
 (config-line)#transport input {all|none|telnet|ssh} (What protocol to user for incoming connections to terminal. Telnet is clear text transportation should always use SSH if possible.)
 (config-line)#transport output {all|none|telnet|ssh} (what protocl to use for outgoiong connections so from local device to a different one)
+```
+# Transport types:
+Telnet-clear text</br>
+SSH- encrypted and requires crypto key gen rsa general-key modulus </br>
+none- no transport protocols accepted. Basically disables the lines</br>
+ALL- allows all transport protocols: lat|mop|nasi|pad|rlogin|ssh|telnet|v120</br>
 
-Transport types:
-Telnet-clear text
-SSH- encrypted and requires crypto key gen rsa general-key modulus 
-none- no transport protocols accepted. Basically disables the lines
-ALL- allows all transport protocols: lat|mop|nasi|pad|rlogin|ssh|telnet|v120
 
-
-Setting up VTY for SSH specifically:
+# Setting up VTY for SSH specifically:
+```
 (console)#config t
 (config)#hostname <name>
 (config)#ip domain-name <name>
@@ -31,7 +38,7 @@ Setting up VTY for SSH specifically:
 (config-line)#login local
 (config-line)#transport input ssh version 2 (version is optional, but ssh version 2 is more secure)
 (config-line)#no shut
+```
+# Commands to ssh to device
 
-commands to ssh to device
-
-ssh -l(the L is for login) <username> <ip address/hostname>  
+``ssh -l(the L is for login) <username> <ip address/hostname> `` 

@@ -6,7 +6,7 @@ IP access lists can also be used for purposes other than security, such as bandw
 *Note:**Inbound and Outbound traffic is based on the port it is being acted upon.** For example when making an ACL from a laptop going through a router, and to a server. The port that the laptop is connected to the router. Anything being sent from the laptop to that port would be inbound traffic, and anything coming out of that port to the pc would be outbound traffic. Same for the server side of this example. The port that the server directly connects to any traffic coming from the server into the router would be inbound, and anything being sent out of that port to the server would be outbound traffic. It is all based on the port you are putting the ACL on.* 
 
 ## 2 steps to implmenting ACLs
-1. Create ACL in global configuration mode: access-list command
+1. Create ACL in Terminal configuration mode: access-list command
 2. Apply inbound or outbound on an interface: access-group command
 An ACL will have no effect until it is applied to an interface. 
 
@@ -70,14 +70,14 @@ For specific ranges on the other hand we would need a different method of findin
 
 <table>
 <tr>
-    <th style = "text-align: center">configuration:</br> global | Interface | Line</th>
+    <th style = "text-align: center">configuration:</br> Terminal | Interface | Line</th>
     <th style = "text-align: center"> Commands </th>
     <th style = "text-align: center"> Explanation</th>
     <th style = "text-align: center"> Examples </th>
 </tr>
 <tr>
       <td VALIGN = "top">config#</td>
-      <td VALIGN = "top">access-list <number> {deny|permit|remark}</td>
+      <td VALIGN = "top">access-list [number] {deny|permit|remark}</td>
       <td VALIGN = "top">Creates a numbered access list and then chooses what to do with the traffic</td>
       <td>access-list 1 permit 10.1.1.1 0.0.0.0 (sets a standard acl to permit 10.1.1.1 when applied to interface.)
       </br>access-list 1 remark allow traffic from 10.1.1.1 out of interface. (allows a note in access list)
@@ -89,52 +89,93 @@ For specific ranges on the other hand we would need a different method of findin
       </list>
       </td>
 </tr>
-        
-(config)# access-list {number|name} {deny|permit} <protocol> <source ip> <wildcard mask> [ports] <destination> [ports] [<options>]
-        example: access-list 100 permit TCP 10.1.1.1 0.0.0.0  192.168.1.1 eq 80 (sets an extended acl to allow tcp http traffic from 10.1.1.1 to 192.168.1.1.we know its http traffic because of the equals port 80 command)
-                
-                access-list 100 deny ip 10.1.1.0 0.0.0.255 host 192.168.1.1 (sets an extended acl that will block any ip traffic coming from the 10.1.1.0/24 network to 192.168.1.1. Because there is a permit message before this one, only the http traffic of 10.1.1.1 address would be allowed through all other traffic is dropped.)
-
-(config-if)ip access-group {number|name} {in|out} 
-      example: access-group 100 out (sets access list 100 to be set for traffic coming our of port configured) 
-               access-group 1 in (sets access list 1 to be set for traffic coming into port configured)
-       
- 
-
-(config)#access-list {number|name} {deny|permit|remark} {hostname or ipaddress|any|host} {wildcard mask|log|ip address if host was used} (host allows for you to match a specific IP and not use a wildcard mask.)
-    example: access-list 1 permit host 10.1.1.1
-             access-list 1 permit 10.1.1.1 255.255.255.255
-             access-list 1 deny any log (denies all other traffic, and logs dropped traffic. The implicit deny does not log anything.)
-             
-(config)#access-list {number|name} {deny|permit|remark} 
- 
-
-(config-int)#ip access-group {name|number} {in|out}
-      example: ip access-group 1 in (this is the group you would assign to the interface and all ACL's tied to that group would be put on that interface. This is also what I was talking about before with the direction being applied to the port itself. The access list in this example would only apply to traffic coming into that port, so any end device sending traffic into the port to be distributed, whereas out would be any traffic going out of that port towards whatever endpoint/device is on the other end of the line.)
+<tr>
+      <td VALIGN = "top">config#</td> 
+      <td VALIGN = "top">access-list {number|name} {deny|permit} <protocol> <source ip> <wildcard mask> [ports] <destination> [ports] [<options>]</td>
+      <td VALIGN = "top"> creates an extended ACL that allows for more control than the standard ACL
+      <td> access-list 100 permit TCP 10.1.1.1 0.0.0.0  192.168.1.1 eq 80(sets an extended acl to allow tcp http traffic from 10.1.1.1 to 192.168.1.1.we know its http traffic because of the equals port 80 command)
+      </br>access-list 100 deny ip 10.1.1.0 0.0.0.255 host 192.168.1.1 (sets an extended acl that will block any ip traffic coming from the 10.1.1.0/24 network to 192.168.1.1. Because there is a permit message before this one, only the http traffic of 10.1.1.1 address would be allowed through all other traffic is dropped.)
+      </td>
+</tr>
+<tr>
+      <td VALIGN = "top">config-if#</td>
+      <td VALIGN = "top">ip access-group {number|name} {in|out}</td>
+      <td VALIGN = "top"> sets the ACL on the port to be implemented on inbound or outbound traffic</td>
+      <td Valign = "top"> access-group 100 out (sets access list 100 to be set for traffic coming our of port configured)
+      </br>access-group 1 in (sets access list 1 to be set for traffic coming into port configured)
+      </td>
+</tr>
+<tr>
+      <td Valign = "top">config#</td>
+      <td Valign = "top">access-list {number|name} {deny|permit|remark} {hostname or ipaddress|any|host} {wildcard mask|log|ip address if host was used}</td>
+      <td Valign = "top">host allows for you to match a specific IP and not use a wildcard mask.</td>
+      <td Valign = "top"> access-list 1 permit host 10.1.1.1
+      </br>access-list 1 permit 10.1.1.1 255.255.255.255
+      </br>access-list 1 deny any log (denies all other traffic, and logs dropped traffic. The implicit deny does not log anything.)
+      </td>
+</tr>
+<tr>          
+      <td Valign = "top">config#</td>
+      <td Valign = "top">access-list {number|name} {deny|permit|remark}</td>
+      <td Valign = "top"></td>
+      <td Valign = "top"> </td>
+<tr>
+      <td Valign = "top">config-if#</td>
+      <td Valign = "top">ip access-group {name|number} {in|out}</td>
+      <td Valign = "top"> Assign an access group/list to a specific port and set it for incoming or outgoing traffic</td>
+      <td Valign = "top">ip access-group 1 in 
+      </br>(This is the group you would assign to the interface and all ACL's tied to that group would be put on that interface. This is also what I was talking about before with the direction being applied to the port itself. The access list in this example would only apply to traffic coming into that port, so any end device sending traffic into the port to be distributed, whereas out would be any traffic going out of that port towards whatever endpoint/device is on the other end of the line.)
+      </td>
+</tr>
 </table>
 </br>
+
 # Setting access list on VTY lines:
 
 <table>
 <tr>
-    <th style = "text-align: center">configuration: global | Interface | Line</th>
+    <th style = "text-align: center">configuration: Terminal | Interface | Line</th>
     <th style = "text-align: center"> Commands </th>
     <th style = "text-align: center"> Explanation</th>
     <th style = "text-align: center"> Examples </th>
 </tr>
-(config)#access-list {number|word} {deny|permit} <ip address>
-(config)#line vty 0 4
-(config-if)#access-class {number|word} {in|out}
-
-removing a specific entry in an ACL:
-(config)#ip access-list {standard|extended} {name|number}
-(config-acl)#no <number of entry you want deleted>
-(config-acl)#do show ip access-list
-      example: ip access-list standard 1
-               no 30
-               do show ip access-list
-
-Troubleshooting/Show Commands:
-show access-lists
-show access-lists {number|name}
+      <td Valign = "top">(config)#
+      <td Valign = "top">access-list {number|word} {deny|permit} <ip address>
+      <td Valign = "top">
+      <td Valign = "top">(config)#line vty 0 4
+      </br>(config-line)# access list 1 deny 192.168.1.10
+</tr>
+<tr>
+      <td Valign = "top">config-if#</td>
+      <td Valign = "top">access-class {number|word} {in|out}</td>
+      <td Valign = "top"></td>
+      <td></td>
+</tr>
 </table>
+
+ # Removing a specific entry in an ACL:
+
+<table>
+<tr>
+    <th style = "text-align: center">configuration: Terminal | Interface | Line</th>
+    <th style = "text-align: center"> Commands </th>
+    <th style = "text-align: center"> Explanation</th>
+    <th style = "text-align: center"> Examples </th>
+</tr>
+<tr>
+      <td Valign = "top">config#</td>
+      <td Valign = "top">ip access-list {standard|extended} {name|number}
+      </br>(config-acl)#no [number of entry you want deleted]
+      </br>(config-acl)#do show ip access-list
+      </td>
+      <td Valign = "top"> explanation</td>
+      <td Valign = "top">ip access-list standard 1
+      </br>no 30
+      </br>do show ip access-list
+      </td>
+</tr>
+</table>
+
+# Troubleshooting/Show Commands:
+``show access-lists``</br>
+``show access-lists {number|name}``
