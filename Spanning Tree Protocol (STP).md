@@ -1,57 +1,101 @@
-Spanning Tree Protocol
-The spanning tree protocol is a network protocol that builds a loop-free logical topology for Ethernet Networks. The basic
-fucntion of STP is to prevent bridge loops(switch) and the broadcast radiation that results from them. Spanning tree also allows
+# Spanning Tree Protocol
+
+The spanning tree protocol is a network protocol that builds a loop-free logical topology for Ethernet Networks. The basic function of STP is to prevent bridge loops(switch) and the broadcast radiation that results from them. Spanning tree also allows
 a network design to include backup links providing fault tolerance if an active link fails.
 
-Types of STP:
+# Types of STP:
+```
             Legacy STP      PVST      PVST+     RSTP      RPVST+      MST
 Algorithm   Legacy ST       LegacyST  Rapid ST  Rapid ST  Rapid ST    Rapid ST
+
 Defined by  802.1D-1998     Cisco     Cisco     802.1w,   Cisco       802.1s,
                                                 802.1D-2004           802.1Q-2003
-Instances       1           per Vlan  PerVlan        1    PerVlan     Configurable
-Trunking        N/A         ISL       802.1Q,ISL  N/A     802.1Q,ISL  802.1Q,ISL
 
-Spanning Tree Operation:
+Instances       1           per Vlan  PerVlan        1    PerVlan     
+
+Configurable
+
+Trunking        N/A         ISL       802.1Q,ISL  N/A     802.1Q,ISL  802.1Q,ISL
+```
+
+# Spanning Tree Operation:
 1. Determine the Root Bridge- the bridge advertising the lowest bridge ID becomes the root bridge
+
 2. Select Root Port- each bridge selects its primary port facing the root
+
 3. Select Designated Ports- one designated port is selected per segment
+
 4. Block Ports with Loops- all non-root and non-designated ports are blocked
 
-Port States:
-Legacy ST- Disabled, Blocking, Listening, Learning, Forwarding
-Rapid ST- Discarding, Learning, Forwarding
+# Port States:
 
-Port Roles:
-Legacy ST- Root, Designated, Blocking
-Rapid ST- Root, Designated, Alternate, Backup
+**Legacy ST**- Disabled, Blocking, Listening, Learning, Forwarding
 
-Default Timers:
-Hello: 2sec
-Forward Delay: 15sec
-Max Age: 20sec
+**Rapid ST**- Discarding, Learning, Forwarding
 
-Link Cost:
-Bandwidth:                       Cost:
-4Mbps                            250
-10Mbps                           100
-16Mbps                           62
-45Mbps                           39
-100Mbps                          19
-155Mbps                          14
-622Mbps                          6
-1Gbps                            4
-10Gbps                           2
-20+Gbps                          1
+# Port Roles:
 
-Path Selection:
-1. Bridge with lowest root ID becomes the root
-2. Prefer the neighbor with the lowest cost to root
-3. Prefer the neighbor with the loweset bridge ID
-4. Prefer the lowest sender port ID
+**Legacy ST**- Root, Designated, Blocking
 
-BPDU's use a uinque mac address of 1:80:c2:00:00:00 or for PVST 01:00:0C:cc:CC:cd
+**Rapid ST**- Root, Designated, Alternate, Backup
 
-PVST+ and RPVST+ Configuration
+## Default Timers:
+**Hello**: 2sec
+**Forward Delay**: 15sec
+**Max Age**: 20sec
+
+# Link Cost:
+<table>
+<tr>
+<th>Bandwidth:</th>                       <th>Cost:</th>
+</tr>
+<tr>
+<td>4Mbps</td>                            <td>250</td>
+</tr>
+<tr>
+<td>10Mbps</td>                           <td>100</td>
+</tr>
+<tr>
+<td>16Mbps</td>                           <td>62</td>
+</tr>
+<tr>
+<td>45Mbps</td>                           <td>39</td>
+</tr>
+<tr>
+<td>100Mbps</td>                          <td>19</td>
+</tr>
+<tr>
+<td>155Mbps</td>                          <td>14</td>
+</tr>
+<tr>
+<td>622Mbps</td>                          <td>6</td>
+</tr>
+<tr>
+<td>1Gbps</td>                            <td>4</td>
+</tr>
+<tr>
+<td>10Gbps</td>                           <td>2</td>
+</tr>
+<tr>
+<td>20+ Gbps<td>                          <td'>1</td>
+</tr>
+</table>
+
+# Path Selection:
+
+## 1. Bridge with lowest root ID becomes the root
+
+## 2. Prefer the neighbor with the lowest cost to root
+
+## 3. Prefer the neighbor with the loweset bridge ID
+
+## 4. Prefer the lowest sender port ID
+
+## **BPDU's** use a uinque mac address of 1:80:c2:00:00:00 or for **PVST** 01:00:0C:cc:CC:cd
+
+# PVST+ and RPVST+ Configuration:
+
+```
 !set mode
 spanning-tree mode {pvst | rapid-pvst}
 
@@ -83,14 +127,19 @@ spanning-tree gaurd {loop | root | none}
 !Per-interface toggling
 spanning-tree bpduguard enable
 spanning-tree bpdufilter enable
+```
+# Spanning Tree Protection:
 
-Spanning Tree Protection:
-Root Guard: Prevents a port from becoming the root port
-BPDU Guard: Error-Disables a port if a BPDU is received
-Loop Guard: Prevents a blocked port from transitioning to listening after the Max Age timer has expiredf
-BPDU Filter: Blocks BPDu's on an interface (disables STP)
+**Root Guard**: Prevents a port from becoming the root port
 
-MST Configuration:
+**BPDU Guard**: Error-Disables a port if a BPDU is received
+
+**Loop Guard**: Prevents a blocked port from transitioning to listening after the Max Age timer has expiredf
+
+**BPDU Filter**: Blocks BPDu's on an interface (disables STP)
+
+# MST Configuration:
+```
 spanning-tree mode mst
 
 !MST configurationg
@@ -117,8 +166,8 @@ spanning-tree mst max-hops 20
 interface FastEthernet 0/1
 spanning-tree mst 1 port-priority 128
 spanning-tree mst 1 cost 19
-
-Troubleshooting/Show commands:
-show spanning-tree [summary | detail | root]
-show spanning-tree [interface | vlan]
-show spanning-tree mst [...]
+```
+# Troubleshooting/Show commands:
+``show spanning-tree [summary | detail | root]``</br>
+``show spanning-tree [interface | vlan]``</br>
+``show spanning-tree mst [...]``</br>
