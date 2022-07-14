@@ -23,7 +23,7 @@
 <td>IPSEC</td> <td>50,51</td>
 </tr>
 <tr>
-<td>Domain Name System (DNS)</td> <td>67,68</td> <td>UDP</td>
+<td>Domain Name System (DNS)</td> <td>53</td> <td>UDP</td>
 </tr>
 <tr>
 <td>Dynamic Host Configuration Protocol (DHCP)</td> <td>67,68</td> <td>UDP</td>
