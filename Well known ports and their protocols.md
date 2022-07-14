@@ -29,7 +29,7 @@
 <td>Dynamic Host Configuration Protocol (DHCP)</td> <td>67,68</td> <td>UDP</td>
 </tr>
 <tr>
-<td>Trivial File Transfer Protocol (TFTP)</td> <td>67</td> <td>UDP</td>
+<td>Trivial File Transfer Protocol (TFTP)</td> <td>69</td> <td>UDP</td>
 </tr>
 <tr>
 <td>HyperText Transfer Protocol (HTTP)</td> <td>80</td> <td>TCP</td>
@@ -47,7 +47,7 @@
 <td>Network Time Protocol (NTP)</td><td>123</td> <td>UDP</td>
 </tr>
 <tr>
-<td>NetBIOS</td> <td>135139</td> <td>TCP and UDP</td>
+<td>NetBIOS</td> <td>135-139</td> <td>TCP and UDP</td>
 </tr>
 <tr>
 <td>Internet Message Access Protocol (IMAP4)</td> <td>143</td> <td>TCP and UDP</td>
@@ -61,8 +61,11 @@
 <tr>
 <td>HTTP with Secure Sockets Layer (HTTPS)</td> <td>443</td> <td>TCP and UDP</td>
 </tr>
+tr>
+<td>Server Message Block (SMB)</td> <td>445</td> <td>TCP</td>
+</tr>
 <tr>
-<td>FTP over SSL/TLS implicit mode (FTPS)</td> <td>989,990</td> <td>TCP</td>
+<td>FTP over SSL/TLS implicit mode (FTPS)</td> <td>989(data),990(control)</td> <td>TCP</td>
 </tr>
 <tr>
 <td>Remote Desktop Protocol</td> <td>3389</td> <td>TCP and UDP</td>
