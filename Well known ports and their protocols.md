@@ -72,4 +72,4 @@ tr>
 </tr>
 </table>
 
-***Note**: </br>SFTP or Secure File transfer protocl uses SSH to use FTP and uses port 22 as well.*
+***Note***: </br>SFTP or Secure File transfer protocl uses SSH to use FTP and uses port 22 as well.*
